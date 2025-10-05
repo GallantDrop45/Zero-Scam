@@ -1,0 +1,27 @@
+/* ----------- GLOBAL RESET ----------- */
+@font-face {
+  font-family: 'Codec';
+  src: url('/src/assets/fonts/CodecPro-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #120c12;
+  font-family: 'Codec', sans-serif;
+  color: white;
+
+  /* permite rolagem mas esconde a barra */
+  overflow-y: scroll;
+  scrollbar-width: none;       /* Firefox */
+  -ms-overflow-style: none;    /* IE/Edge antigo */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;               /* Chrome, Safari, Edge */
+}
+

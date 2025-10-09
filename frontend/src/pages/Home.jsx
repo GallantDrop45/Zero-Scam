@@ -1,41 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaMobileAlt, FaStar, FaShieldAlt, FaBars, FaTimes } from 'react-icons/fa';
-import { SiHiveBlockchain } from "react-icons/si";
+import { FaMobileAlt, FaStar, FaShieldAlt } from 'react-icons/fa';
+import Header from '../components/Header/Header';
 import styles from './Home.module.css';
 
 export default function Home() {
-  const [menuOpen, setMenuOpen] = useState(false);
-
   return (
     <div className={styles.homeContainer}>
       {/* HERO */}
       <section className={styles.hero}>
-        <header className={styles.header}>
-        {/* Logo */}
-        <Link to="/" className={styles.logo}>
-          <SiHiveBlockchain className={styles.logoIcon} />
-          &lt; zeroScam &gt;
-        </Link>
-
-          {/* Botão hamburguer no mobile */}
-          <button 
-            className={styles.hamburger} 
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Abrir menu"
-          >
-            {menuOpen ? <FaTimes /> : <FaBars />}
-          </button>
-
-          {/* Nav */}
-          <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`}>
-            <Link to="/" onClick={() => setMenuOpen(false)}>HOME</Link>
-            <Link to="/denunciar" onClick={() => setMenuOpen(false)}>DENUNCIAR GOLPE</Link>
-            <Link to="/verificar" className={styles.verificarBtn} onClick={() => setMenuOpen(false)}>
-              VERIFICAR LINK
-            </Link>
-          </nav>
-        </header>
+        {/* Header global */}
+        <Header />
 
         <div className={styles.heroContent}>
           <h1>
@@ -70,7 +45,7 @@ export default function Home() {
           <div className={styles.step}>
             <div className={styles.icon}><FaShieldAlt /></div>
             <h3>Proteção gratuita<br /> e acessível</h3>
-            <p>Dicas práticas de segurança digital com base em análises rápidas e inteligentes</p>
+            <p>Dicas práticas de segurança digital com base em análises rápidas e inteligentes.</p>
           </div>
         </div>
       </section>

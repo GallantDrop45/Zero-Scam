@@ -1,43 +1,18 @@
-import React, { useState } from 'react';
-import { FaBars, FaTimes } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-import { SiHiveBlockchain } from "react-icons/si";
-import styles from './DenunciarGolpe.module.css';
+import React from 'react';
+import Header from '../components/Header/Header';
+import styles from './VerificarLink.module.css';
 
-export default function DenunciarGolpe() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  
+export default function VerificarLink() {
   return (
-      <section className={styles.hero}>
-        <header className={styles.header}>
-        {/* Logo */}
-        <Link to="/" className={styles.logo}>
-          <SiHiveBlockchain className={styles.logoIcon} />
-          &lt; zeroScam &gt;
-        </Link>
+    <section className={styles.hero}>
+      {/* Header global */}
+      <Header />
 
-          {/* Botão hamburguer no mobile */}
-          <button 
-            className={styles.hamburger} 
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Abrir menu"
-          >
-            {menuOpen ? <FaTimes /> : <FaBars />}
-          </button>
-
-          {/* Nav */}
-          <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`}>
-            <Link to="/" onClick={() => setMenuOpen(false)}>HOME</Link>
-            <Link to="/denunciar" onClick={() => setMenuOpen(false)}>DENUNCIAR GOLPE</Link>
-            <Link to="/verificar" className={styles.verificarBtn} onClick={() => setMenuOpen(false)}>
-              VERIFICAR LINK
-            </Link>
-          </nav>
-        </header>
-
-        <div className={styles.heroContent}>
-          <h1>Verificar Link</h1>
-        </div>
-      </section>
+      <div className={styles.heroContent}>
+        <h1>Verificar Link</h1>
+        <p>Insira o link abaixo para verificar se ele é seguro.</p>
+        {/* Aqui futuramente virá o campo de input e botão de verificação */}
+      </div>
+    </section>
   );
 }

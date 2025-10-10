@@ -53,6 +53,9 @@ export default function VerificarLink() {
       }
     }, 1600);
   };
+  const [url, setUrl] = useState('');
+  const [result, setResult] = useState('');
+  const [loading, setLoading] = useState(false);
 
   return (
     <section className={styles.hero}>

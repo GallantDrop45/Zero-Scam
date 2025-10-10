@@ -9,6 +9,7 @@ public class ZeroScamApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ZeroScamApplication.class, args);
                 System.out.println("Olá bradesco");
+
 	}
 
 }

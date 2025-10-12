@@ -167,9 +167,8 @@
 
 /* CTA */
 .ctaBox {
-  margin-top: 60px;
-  padding-top: 30px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 0;
+  padding-top: 20px;
 }
 
 .ctaBox h3 {
@@ -228,6 +227,40 @@
   color: white;
 }
 
+.divisor {
+  margin: 30px 0 20px;
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Relatório abaixo do resultado */
+.relatorioBox {
+  margin-top: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: left;
+}
+
+.relatorioBox h3 {
+  margin-bottom: 12px;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.relatorioBox ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: #ddd;
+  line-height: 1.6;
+}
+
+.relatorioBox li strong {
+  color: #f4f4f4;
+}
+
 /* ANIMAÇÕES */
 @keyframes fadeIn {
   from {
@@ -249,6 +282,21 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.aparece {
+  animation: fadeSlideUp 0.6s ease forwards;
 }
 
 /* RESPONSIVIDADE */

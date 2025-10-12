@@ -27,26 +27,62 @@
 .hero h1 {
   font-size: 3.3rem;
   font-weight: bold;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   line-height: 1.3;
   max-width: 1200px;
 }
 
+.subtitulo {
+  color: #ccc;
+  font-size: 1.1rem;
+  margin-bottom: 40px;
+  line-height: 1.4;
+  max-width: 700px;
+}
 
-/* ----------- CTA ----------- */
-.cta {
+.heroButtons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btnSecondary {
+  border: 1px solid #f4f4f4;
+  color: #f4f4f4;
+  padding: 16px 34px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.btnSecondary:hover {
+  border: 1px solid #f4f4f4; 
+  opacity: 0.8;
   background-color: #f4f4f4;
-  color: #120c12;
+  color: #120c12e7;
+}
+
+.cta {
+  background-image: linear-gradient(90deg, #754396e1, #9c2779d3, #641c6975);
+  background-size: 200% 100%;        
+  background-position: 0% 50%;       
+  transition:
+    background-position 0.4s ease-in-out,  
+    box-shadow 0.5s ease,
+    transform 0.3s ease;
+  color: #f4f4f4;
   font-weight: bold;
   padding: 16px 34px;
   border-radius: 8px;
   text-decoration: none;
   display: inline-block;
-  transition: background-color 0.3s;
 }
 
 .cta:hover {
-  background: linear-gradient(to right, #d35965d7, #c4404d70, #962f9d75);
+  background-position: 100% 50%;     
+  box-shadow: 0 0 18px rgba(30, 15, 46, 0.45);
   color: #f4f4f4;
 }
 

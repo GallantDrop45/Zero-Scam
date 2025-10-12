@@ -5,7 +5,7 @@ import Header from '../components/Header/Header';
 import styles from './Home.module.css';
 
 export default function Home() {
-  return (
+    return (
     <div className={styles.homeContainer}>
       {/* HERO */}
       <section className={styles.hero}>
@@ -14,13 +14,21 @@ export default function Home() {
 
         <div className={styles.heroContent}>
           <h1>
-            Proteção simples e inteligente contra
-            <br />
+            Proteção simples e inteligente contra<br />
             links de golpe
           </h1>
-          <Link to="/verificar" className={styles.cta}>
-            VERIFICAR LINK AGORA
-          </Link>
+          <p className={styles.subtitulo}>
+            Verifique qualquer link suspeito em segundos e navegue com mais segurança
+          </p>
+
+          <div className={styles.heroButtons}>
+            <Link to="/denunciar" className={styles.btnSecondary}>
+              DENUNCIAR UM GOLPE
+            </Link>
+            <Link to="/verificar" className={styles.cta}>
+              VERIFICAR LINK AGORA
+            </Link>
+          </div>
         </div>
       </section>
 

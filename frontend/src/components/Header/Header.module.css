@@ -38,7 +38,7 @@
 /* ----------- HEADER ----------- */
 .header {
   position: absolute;
-  top: 36px;
+  top: 12px;
   left: 0;
   right: 0;
   display: flex;
@@ -76,11 +76,11 @@
   position: relative;
 }
 
-.nav a:not(.verificarBtn) {
+.nav a:not(.entrarBtn) {
   padding-bottom: 4px;
 }
 
-.nav a:not(.verificarBtn)::after {
+.nav a:not(.entrarBtn)::after {
   content: "";
   position: absolute;
   bottom: 0;
@@ -91,11 +91,11 @@
   transition: width 0.3s ease;
 }
 
-.nav a:not(.verificarBtn):hover::after {
+.nav a:not(.entrarBtn):hover::after {
   width: 100%;
 }
 
-.verificarBtn {
+.entrarBtn {
   border: 1px solid #f4f4f4;
   padding: 12px 20px;
   border-radius: 8px;
@@ -105,7 +105,7 @@
   line-height: 1;
 }
 
-.verificarBtn:hover {
+.entrarBtn:hover {
   background-color: #f4f4f4;
   color: #120c12;
 }

@@ -5,11 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class ZeroScamApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(ZeroScamApplication.class, args);
-                System.out.println("Olá bradesco");
-
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(ZeroScamApplication.class, args);
+    }
 }

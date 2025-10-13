@@ -13,7 +13,6 @@ export default function VerificarLink() {
   const isLoggedIn = false;
 
   const handleVerificar = async () => {
-    // Validação básica de URL
     const urlRegex = /^(https?:\/\/)([a-z0-9-]+\.)+[a-z]{2,}(\/.*)?$/i;
 
     if (!link.trim()) {
@@ -32,10 +31,10 @@ export default function VerificarLink() {
       return;
     }
 
-    // Simula chamada à API
     setCarregando(true);
     setResultado(null);
 
+    // Simula resposta da API
     setTimeout(() => {
       setCarregando(false);
       const seguro = Math.random() > 0.4;
@@ -44,18 +43,27 @@ export default function VerificarLink() {
         setResultado({
           status: 'seguro',
           mensagem: 'Este link parece confiável e não foi reportado em nossa base de dados.',
+          detalhes: {
+            dominioRegistrado: true,
+            score: 95,
+            totalDenuncias: 0,
+            valorColetado: 0,
+          },
         });
       } else {
         setResultado({
           status: 'perigoso',
           mensagem: 'Detectamos atividades suspeitas associadas a este link.',
+          detalhes: {
+            dominioRegistrado: false,
+            score: 23,
+            totalDenuncias: 18,
+            valorColetado: 13500,
+          },
         });
       }
     }, 1600);
   };
-  const [url, setUrl] = useState('');
-  const [result, setResult] = useState('');
-  const [loading, setLoading] = useState(false);
 
   return (
     <section className={styles.hero}>
@@ -82,37 +90,67 @@ export default function VerificarLink() {
 
         {/* RESULTADO */}
         {resultado && (
-          <div
-            className={`${styles.resultadoBox} ${
-              resultado.status === 'seguro'
-                ? styles.seguro
-                : resultado.status === 'perigoso'
-                ? styles.perigoso
-                : styles.erro
-            }`}
-          >
-            {resultado.status === 'seguro' && <FaCheckCircle className={styles.icon} />}
-            {resultado.status === 'perigoso' && <FaExclamationTriangle className={styles.icon} />}
-            <p>{resultado.mensagem}</p>
-          </div>
-        )}
-
-        {/* CTA pós-verificação — aparece apenas se o link for válido */}
-        {!carregando && resultado && resultado.status !== 'erro' && !isLoggedIn && (
-          <div className={styles.ctaBox}>
-            <h3>Relatório detalhado disponível</h3>
-            <p>
-              Faça login ou crie uma conta gratuita para acessar a análise completa deste link.
-            </p>
-            <div className={styles.ctaButtons}>
-              <Link to="/login" className={styles.btnSecundario}>
-                Fazer Login
-              </Link>
-              <Link to="/cadastro" className={styles.btnPrimario}>
-                Criar Conta
-              </Link>
+          <>
+            <div
+              className={`${styles.resultadoBox} ${
+                resultado.status === 'seguro'
+                  ? styles.seguro
+                  : resultado.status === 'perigoso'
+                  ? styles.perigoso
+                  : styles.erro
+              }`}
+            >
+              {resultado.status === 'seguro' && <FaCheckCircle className={styles.icon} />}
+              {resultado.status === 'perigoso' && <FaExclamationTriangle className={styles.icon} />}
+              <p>{resultado.mensagem}</p>
             </div>
-          </div>
+
+            {/* Renderiza o divisor e o bloco abaixo SOMENTE se o link for válido */}
+            {!carregando && resultado.status !== 'erro' && (
+              <>
+                <hr className={styles.divisor} />
+
+                {isLoggedIn ? (
+                  <div className={styles.relatorioBox}>
+                    <h3>Relatório completo</h3>
+                    <ul>
+                      <li>
+                        <strong>Domínio:</strong>{' '}
+                        {resultado.detalhes.dominioRegistrado ? 'Registrado' : 'Não registrado'}
+                      </li>
+                      <li>
+                        <strong>Score de segurança:</strong> {resultado.detalhes.score}%
+                      </li>
+                      <li>
+                        <strong>Total de denúncias:</strong> {resultado.detalhes.totalDenuncias}
+                      </li>
+                      <li>
+                        <strong>Valor total coletado pelo golpe:</strong>{' '}
+                        {resultado.detalhes.valorColetado > 0
+                          ? `R$ ${resultado.detalhes.valorColetado.toLocaleString('pt-BR')}`
+                          : 'Nenhum valor coletado'}
+                      </li>
+                    </ul>
+                  </div>
+                ) : (
+                  <div className={styles.ctaBox}>
+                    <h3>Relatório detalhado disponível</h3>
+                    <p>
+                      Faça login ou crie uma conta gratuita para acessar a análise completa deste link.
+                    </p>
+                    <div className={styles.ctaButtons}>
+                      <Link to="/login" className={styles.btnSecundario}>
+                        Fazer Login
+                      </Link>
+                      <Link to="/cadastro" className={styles.btnPrimario}>
+                        Criar Conta
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+          </>
         )}
       </div>
     </section>

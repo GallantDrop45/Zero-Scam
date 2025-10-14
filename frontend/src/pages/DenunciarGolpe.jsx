@@ -22,20 +22,53 @@ export default function DenunciarGolpe() {
     setValor(formatted);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsLoading(true);
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsLoading(true);
 
-    setTimeout(() => {
-      setIsLoading(false);
-      setIsSubmitted(true);
-      e.target.reset();
-      setCanal("");
-      setInputExtra("");
-      setPerda("");
-      setValor("");
-    }, 2000);
+  // Preparar dados para enviar
+  const denunciaData = {
+    link: document.querySelector('input[name="link"]').value,
+    canal: canal,
+    inputExtra: inputExtra,
+    perda: perda,
+    valorPerdido: perda === "sim" ? parseFloat(valor.replace("R$ ", "").replace(",", ".")) : 0,
+    relato: document.querySelector('textarea[name="relato"]').value
   };
+
+  try {
+    const response = await fetch('http://localhost:8080/api/denuncias', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(denunciaData)
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log('Denúncia criada:', data);
+      
+      setTimeout(() => {
+        setIsLoading(false);
+        setIsSubmitted(true);
+        
+        // Limpar formulário
+        e.target.reset();
+        setCanal("");
+        setInputExtra("");
+        setPerda("");
+        setValor("");
+      }, 2000);
+    } else {
+      throw new Error('Erro ao enviar denúncia');
+    }
+  } catch (error) {
+    console.error('Erro:', error);
+    setIsLoading(false);
+    alert('Erro ao enviar denúncia. Tente novamente.');
+  }
+};
 
   return (
     <section className={styles.hero}>

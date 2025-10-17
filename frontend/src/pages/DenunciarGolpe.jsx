@@ -87,7 +87,9 @@ export default function DenunciarGolpe() {
           {!isSubmitted ? (
             <form onSubmit={handleSubmit} className={styles.form}>
               <div className={styles.formGroup}>
-                <label>Link suspeito *</label>
+                <label>
+                  {canal === "email" ? "Link recebido por e-mail *" : "Link recebido *"}
+                </label>
                 <input
                   type="url"
                   name="link"

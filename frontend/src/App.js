@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import DenunciarGolpe from './pages/DenunciarGolpe';
 import VerificarLink from './pages/VerificarLink';
 import Login from './pages/Login';
+import Cadastro from './pages/Cadastro';
 import axios from 'axios';
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/denunciar" element={<DenunciarGolpe />} />
         <Route path="/verificar" element={<VerificarLink />} />
         <Route path="/login" element={<Login/>} />
+        <Route path="/cadastro" element={<Cadastro/>} />
       </Routes>
     </Router>
   );

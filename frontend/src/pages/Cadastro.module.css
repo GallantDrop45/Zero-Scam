@@ -10,25 +10,23 @@
   overflow: hidden;
 }
 
-/* card */
+/* Card principal */
 .card {
-  position: relative;
-  z-index: 2;
   background: rgba(20, 18, 22, 0.65);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
   padding: 50px;
   width: 100%;
-  max-width: 370px;
+  max-width: 460px;
   color: #fff;
   text-align: center;
   animation: fadeIn 0.8s ease forwards;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.45);
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(15px); }
+  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -60,11 +58,22 @@
   margin: 0 0 20px;
 }
 
-/* form */
+/* Formulário */
 .form {
   display: flex;
   flex-direction: column;
   text-align: left;
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+}
+
+.inputGroup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 label {
@@ -73,6 +82,7 @@ label {
   margin-bottom: 6px;
   margin-top: 6px;
   letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 input {
@@ -93,7 +103,7 @@ input:focus {
   background: rgba(0, 0, 0, 0.45);
 }
 
-/* botão */
+/* Botão */
 .btn {
   margin-top: 20px;
   border: none;
@@ -104,6 +114,7 @@ input:focus {
   font-weight: 600;
   cursor: pointer;
   letter-spacing: 1px;
+  text-transform: uppercase;
   
   background-image: linear-gradient(90deg, #b84551cc, #c4404dc9, #520e57f1, #240127f1);
   background-size: 200% 100%;
@@ -115,7 +126,6 @@ input:focus {
     transform 0.4s ease;
 
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  will-change: background-position, transform, box-shadow;
 }
 
 .btn:hover {
@@ -123,33 +133,14 @@ input:focus {
   box-shadow: 0 0 18px rgba(30, 15, 46, 0.45);
 }
 
-/* links inferiores */
-.footerLinks {
-  margin-top: 28px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0px;
-  text-align: center;
-}
-
-.forgotPassword {
-  font-size: 14px;
-  color: #aaa;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.forgotPassword:hover {
-  color: #f17b87;
-}
-
-.signupText {
+/* Rodapé */
+.loginText {
   font-size: 14px;
   color: #ccc;
+  margin-top: 24px;
 }
 
-.signupLink {
+.loginLink {
   position: relative;
   color: #f17b87;
   font-weight: 500;
@@ -158,7 +149,7 @@ input:focus {
   transition: color 0.3s ease;
 }
 
-.signupLink::after {
+.loginLink::after {
   content: "";
   position: absolute;
   left: 0;
@@ -170,17 +161,21 @@ input:focus {
   border-radius: 2px;
 }
 
-.signupLink:hover {
+.loginLink:hover {
   color: #f4f4f4;
 }
 
-.signupLink:hover::after {
+.loginLink:hover::after {
   width: 100%;
 }
 
-
+/* Responsivo */
 @media (max-width: 480px) {
   .card {
-    padding: 30px 25px;
+    padding: 35px 25px;
+  }
+
+  .row {
+    flex-direction: column;
   }
 }

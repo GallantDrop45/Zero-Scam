@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaSpinner } from 'react-icons/fa';
 import Header from "../components/Header/Header";
 import styles from "./DenunciarGolpe.module.css";
 
@@ -75,7 +76,7 @@ export default function DenunciarGolpe() {
       <Header />
       <div className={styles.contentWrapper}>
         <div className={styles.textBlock}>
-          <h1>Denunciar Link</h1>
+          <h1>Denunciar Link.</h1>
           <p>
             Sua denúncia é essencial para proteger outras pessoas contra golpes online.
             Todas as informações enviadas são tratadas de forma completamente anônima
@@ -172,11 +173,12 @@ export default function DenunciarGolpe() {
                 disabled={isLoading}
               >
                 {isLoading ? (
-                  <span className={styles.spinner}></span>
+                  <FaSpinner className={styles.spin} />
                 ) : (
                   "Enviar denúncia"
                 )}
               </button>
+
             </form>
           ) : (
             <p className={styles.confirmation}>

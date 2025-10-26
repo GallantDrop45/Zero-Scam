@@ -31,18 +31,19 @@ export default function Header() {
       {/* Navegação */}
       <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`}>
         <Link 
-          to="/denunciar" 
-          className={location.pathname === '/denunciar' ? styles.active : ''} 
-          onClick={() => setMenuOpen(false)}
-        >
-          DENUNCIAR GOLPE
-        </Link>
-        <Link 
           to="/verificar" 
           className={`${styles.nav} ${location.pathname === '/verificar' ? styles.activeBtn : ''}`} 
           onClick={() => setMenuOpen(false)}
         >
           VERIFICAR LINK
+        </Link>
+
+        <Link 
+          to="/denunciar" 
+          className={location.pathname === '/denunciar' ? styles.active : ''} 
+          onClick={() => setMenuOpen(false)}
+        >
+          DENUNCIAR GOLPE
         </Link>
 
         {/* Botão de Login ou Conta */}

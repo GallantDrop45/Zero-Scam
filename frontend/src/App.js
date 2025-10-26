@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './pages/Home';
 import DenunciarGolpe from './pages/DenunciarGolpe';
 import VerificarLink from './pages/VerificarLink';
+import Login from './pages/Login';
 import axios from 'axios';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/denunciar" element={<DenunciarGolpe />} />
         <Route path="/verificar" element={<VerificarLink />} />
+        <Route path="/login" element={<Login/>} />
       </Routes>
     </Router>
   );

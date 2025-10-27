@@ -1,76 +1,73 @@
 package com.USJT.ZeroScam.model;
 
-import java.time.LocalDateTime;
-
 public class WhoisData {
-    private String dominio;
-    private String NomeRegistrante;
-    private String emailRegistrante;
-    private String PaisRegistrante;
-    private String dataCriacao;
-    private String dataAtualizacao;
-    private String dataExpiracao;
+    
+    private String domainName;
+    private String registrantName;
+    private String registrantEmail;
+    private String registrantCountry;  
+    private String createdDate;        
+    private String updatedDate;
+    private String expiresDate;
     private int recordsCount;
     private String registrarName;
-    
 
     public WhoisData() {}
 
-    
     public String getDomainName() {
-        return dominio;
+        return domainName;
     }
 
     public void setDomainName(String domainName) {
-        this.dominio = domainName;
+        this.domainName = domainName;
     }
 
     public String getRegistrantName() {
-        return NomeRegistrante;
+        return registrantName;
     }
 
     public void setRegistrantName(String registrantName) {
-        this.NomeRegistrante = registrantName;
+        this.registrantName = registrantName;
     }
 
     public String getRegistrantEmail() {
-        return emailRegistrante;
+        return registrantEmail;
     }
 
     public void setRegistrantEmail(String registrantEmail) {
-        this.emailRegistrante = registrantEmail;
+        this.registrantEmail = registrantEmail;
     }
 
-    public String getRegistrantCountry() {
-        return PaisRegistrante;
+    public String getRegistrantCountry() {  
+        return registrantCountry;
     }
 
     public void setRegistrantCountry(String registrantCountry) {
-        this.PaisRegistrante = registrantCountry;
+        this.registrantCountry = registrantCountry;
     }
 
-    public String getCreatedDate() {
-        return dataCriacao;
+    public String getCreatedDate() { 
+        return createdDate;
     }
 
     public void setCreatedDate(String createdDate) {
-        this.dataCriacao = createdDate;
+        this.createdDate = createdDate;
     }
 
     public String getUpdatedDate() {
-        return dataAtualizacao;
+        return updatedDate;
     }
 
     public void setUpdatedDate(String updatedDate) {
-        this.dataAtualizacao = updatedDate;
+        this.updatedDate = updatedDate;
     }
 
     public String getExpiresDate() {
-        return dataExpiracao;
+        return expiresDate;
     }
 
     public void setExpiresDate(String expiresDate) {
-        this.dataExpiracao = expiresDate;
+        this.expiresDate = expiresDate;
     }
 
     public int getRecordsCount() {

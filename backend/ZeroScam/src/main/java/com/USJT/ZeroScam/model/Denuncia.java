@@ -17,7 +17,14 @@ public class Denuncia {
     private String relato;
     private LocalDateTime dataCriacao;
 
-    
+    // API Who-is-Data
+    private Integer scoreRisco; // 0-100
+    private String dominio; // google.com
+    private String paisRegistrante; //BR, US, etc
+    private String dataCriacaoDominio; // yyyy-MM-dd
+    private Boolean dominioSuspeito; // Sim/Não
+
+
     public Denuncia() {
         this.dataCriacao = LocalDateTime.now();
     }
@@ -32,7 +39,38 @@ public class Denuncia {
         this.dataCriacao = LocalDateTime.now();
     }
 
-    
+    public Integer getScoreRisco() {
+        return scoreRisco;
+    }
+
+    public void setScoreRisco(Integer scoreRisco) {
+        this.scoreRisco = scoreRisco;
+    }
+
+    public String getDominio() {
+        return dominio;
+    }
+
+    public void setDominio(String dominio) {
+        this.dominio = dominio;
+    }
+
+    public String getPaisRegistro() {
+        return paisRegistrante;
+    }
+
+    public void setPaisRegistro(String paisRegistro) {
+        this.paisRegistrante = paisRegistro;
+    }
+
+    public String getDataRegistroDominio() {
+        return dataCriacaoDominio;
+    }
+
+    public void setDataRegistroDominio(String dataRegistroDominio) {
+        this.dataCriacaoDominio = dataRegistroDominio;
+    }
+
     public String getId() {
         return id;
     }
@@ -95,5 +133,13 @@ public class Denuncia {
 
     public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
+    }
+
+    public Boolean getDominioSuspeito() {
+    return dominioSuspeito;
+    }
+
+    public void setDominioSuspeito(Boolean dominioSuspeito) {
+    this.dominioSuspeito = dominioSuspeito;
     }
 }

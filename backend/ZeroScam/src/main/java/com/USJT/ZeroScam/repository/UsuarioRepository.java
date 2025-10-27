@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UsuarioRepository extends MongoRepository<Usuario, String> {
-    // Métodos personalizados (opcional)
+    // Métodos personalizados 
     Usuario findByEmail(String email);
 }

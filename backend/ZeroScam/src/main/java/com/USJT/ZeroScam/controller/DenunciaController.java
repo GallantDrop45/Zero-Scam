@@ -1,7 +1,10 @@
 package com.USJT.ZeroScam.controller;
 
 import com.USJT.ZeroScam.model.Denuncia;
+import com.USJT.ZeroScam.model.WhoisData;
 import com.USJT.ZeroScam.repository.DenunciaRepository;
+import com.USJT.ZeroScam.service.WhoisService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,9 @@ public class DenunciaController {
     @Autowired
     private DenunciaRepository denunciaRepository;
 
+    @Autowired
+    private WhoisService whoisService;
+
     // Listar todas as denúncias
     @GetMapping
     public List<Denuncia> listarDenuncias() {
@@ -24,15 +30,49 @@ public class DenunciaController {
     }
 
     // Criar nova denúncia
-    @PostMapping
+     @PostMapping
     public ResponseEntity<Denuncia> criarDenuncia(@RequestBody Denuncia denuncia) {
         try {
+            System.out.println("📥 Recebendo denúncia: " + denuncia.getLink());
+            
+            // 1. Extrair domínio do link
+            String dominio = whoisService.extrairDominio(denuncia.getLink());
+            denuncia.setDominio(dominio);
+            System.out.println("🌐 Domínio extraído: " + dominio);
+            
+            // 2. Consultar WHOIS (só se tiver API KEY configurada)
+            WhoisData whoisData = whoisService.consultarDominio(dominio);
+            
+            if (whoisData != null) {
+                // 3. Calcular score de risco
+                int scoreRisco = whoisService.calcularScoreRisco(whoisData);
+                denuncia.setScoreRisco(scoreRisco);
+                
+                // 4. Adicionar dados do WHOIS
+                denuncia.setPaisRegistro(whoisData.getRegistrantCountry());
+                denuncia.setDataRegistroDominio(whoisData.getCreatedDate());
+                
+                // 5. Marcar como suspeito se score >= 60
+                denuncia.setDominioSuspeito(scoreRisco >= 60);
+                
+                System.out.println("✅ Domínio verificado! Score: " + scoreRisco);
+            } else {
+                System.out.println("⚠️ WHOIS não consultado (API KEY não configurada ou erro)");
+            }
+            
+            // 6. Salvar denúncia
             Denuncia novaDenuncia = denunciaRepository.save(denuncia);
+            System.out.println("💾 Denúncia salva com ID: " + novaDenuncia.getId());
+            
             return new ResponseEntity<>(novaDenuncia, HttpStatus.CREATED);
+            
         } catch (Exception e) {
+            System.err.println("❌ Erro ao criar denúncia: " + e.getMessage());
+            e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     // Buscar denúncia por ID
     @GetMapping("/{id}")

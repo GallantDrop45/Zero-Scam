@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { SiHiveBlockchain } from "react-icons/si";
+import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import Header from "../components/Header/Header";
 import styles from "./Cadastro.module.css";
 
@@ -12,13 +13,88 @@ export default function Cadastro() {
     confirmarSenha: "",
   });
 
+  const [errors, setErrors] = useState({
+    nome: "",
+    sobrenome: "",
+    email: "",
+  });
+
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+  const [validations, setValidations] = useState({
+    length: false,
+    number: false,
+    uppercase: false,
+    special: false,
+    match: false,
+  });
+
+  // Atualiza os campos e faz validações básicas
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    if (name === "senha" || name === "confirmarSenha") {
+      validatePassword(
+        name === "senha" ? value : formData.senha,
+        name === "confirmarSenha" ? value : formData.confirmarSenha
+      );
+    }
+
+    if (name === "nome" || name === "sobrenome" || name === "email") {
+      validateField(name, value);
+    }
   };
 
+  // Valida nome, sobrenome e email
+  const validateField = (name, value) => {
+    let message = "";
+
+    if ((name === "nome" || name === "sobrenome") && value.trim().length < 3) {
+      message = "Deve ter pelo menos 3 caracteres.";
+    }
+
+    if (name === "email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(value)) {
+        message = "Digite um email válido.";
+      }
+    }
+
+    setErrors((prev) => ({ ...prev, [name]: message }));
+  };
+
+  // Valida senha e confirmação
+  const validatePassword = (senha, confirmarSenha) => {
+    const checks = {
+      length: senha.length >= 8,
+      number: /\d/.test(senha),
+      uppercase: /[A-Z]/.test(senha),
+      special: /[!@#$%^&*(),.?":{}|<>]/.test(senha),
+      match: senha !== "" && senha === confirmarSenha,
+    };
+    setValidations(checks);
+  };
+
+  // Envio do formulário
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+
+    // valida todos antes de enviar
+    validateField("nome", formData.nome);
+    validateField("sobrenome", formData.sobrenome);
+    validateField("email", formData.email);
+
+    if (
+      errors.nome ||
+      errors.sobrenome ||
+      errors.email ||
+      !validations.match
+    ) {
+      console.log("Formulário inválido");
+      return;
+    }
+
+    console.log("Formulário enviado:", formData);
   };
 
   return (
@@ -43,8 +119,10 @@ export default function Cadastro() {
                   placeholder="Digite seu nome"
                   value={formData.nome}
                   onChange={handleChange}
+                  onBlur={(e) => validateField("nome", e.target.value)}
                   required
                 />
+                {errors.nome && <span className={styles.error}>{errors.nome}</span>}
               </div>
 
               <div className={styles.inputGroup}>
@@ -55,8 +133,12 @@ export default function Cadastro() {
                   placeholder="Digite seu sobrenome"
                   value={formData.sobrenome}
                   onChange={handleChange}
+                  onBlur={(e) => validateField("sobrenome", e.target.value)}
                   required
                 />
+                {errors.sobrenome && (
+                  <span className={styles.error}>{errors.sobrenome}</span>
+                )}
               </div>
             </div>
 
@@ -67,8 +149,10 @@ export default function Cadastro() {
               placeholder="Digite seu email"
               value={formData.email}
               onChange={handleChange}
+              onBlur={(e) => validateField("email", e.target.value)}
               required
             />
+            {errors.email && <span className={styles.error}>{errors.email}</span>}
 
             <label>Senha:</label>
             <input
@@ -77,6 +161,8 @@ export default function Cadastro() {
               placeholder="Digite sua senha"
               value={formData.senha}
               onChange={handleChange}
+              onFocus={() => setIsPasswordFocused(true)}
+              onBlur={() => setIsPasswordFocused(false)}
               required
             />
 
@@ -87,8 +173,30 @@ export default function Cadastro() {
               placeholder="Confirme sua senha"
               value={formData.confirmarSenha}
               onChange={handleChange}
+              onFocus={() => setIsPasswordFocused(true)}
+              onBlur={() => setIsPasswordFocused(false)}
               required
             />
+
+            {isPasswordFocused && (
+              <div className={`${styles.validationBox}`}>
+                <p className={validations.length ? styles.valid : styles.invalid}>
+                  {validations.length ? <FaCheckCircle /> : <FaTimesCircle />} Pelo menos 8 caracteres
+                </p>
+                <p className={validations.number ? styles.valid : styles.invalid}>
+                  {validations.number ? <FaCheckCircle /> : <FaTimesCircle />} Pelo menos um número
+                </p>
+                <p className={validations.uppercase ? styles.valid : styles.invalid}>
+                  {validations.uppercase ? <FaCheckCircle /> : <FaTimesCircle />} Pelo menos uma letra maiúscula
+                </p>
+                <p className={validations.special ? styles.valid : styles.invalid}>
+                  {validations.special ? <FaCheckCircle /> : <FaTimesCircle />} Pelo menos um caractere especial
+                </p>
+                <p className={validations.match ? styles.valid : styles.invalid}>
+                  {validations.match ? <FaCheckCircle /> : <FaTimesCircle />} As senhas coincidem
+                </p>
+              </div>
+            )}
 
             <button type="submit" className={styles.btn}>
               Cadastrar

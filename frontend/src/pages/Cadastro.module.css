@@ -103,6 +103,64 @@ input:focus {
   background: rgba(0, 0, 0, 0.45);
 }
 
+/* Mensagens de erro simples */
+.error {
+  color: #ff7070;
+  font-size: 11px;
+  margin-top: -8px;
+  margin-bottom: 6px;
+  display: block;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* Regras - Senha */
+@keyframes fadeInValidationBox {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.validationBox {
+  position: relative;
+  margin-top: 10px;
+  padding: 12px 14px;
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  opacity: 0;
+  animation: fadeInValidationBox 0.4s ease forwards;
+}
+
+.validationBox p {
+  margin: 6px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #bbb;
+  transition: color 0.3s ease;
+}
+
+.valid {
+  color: #72ff7e;
+}
+
+.invalid {
+  color: #ccc;
+}
+
+.valid svg {
+  color: #72ff7e;
+}
+
+.invalid svg {
+  color: #fff;
+  opacity: 0.7;
+}
+
 /* Botão */
 .btn {
   margin-top: 20px;
@@ -168,6 +226,7 @@ input:focus {
 .loginLink:hover::after {
   width: 100%;
 }
+
 
 /* Responsivo */
 @media (max-width: 480px) {

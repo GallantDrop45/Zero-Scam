@@ -123,6 +123,25 @@ input:focus {
   box-shadow: 0 0 18px rgba(30, 15, 46, 0.45);
 }
 
+/* Mensagens de erro simples */
+.error {
+  color: #ff7070;
+  font-size: 13px;
+  margin-top: -6px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.loginError {
+  text-align: center;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  background: rgba(255, 80, 80, 0.1);
+  border: 1px solid rgba(255, 100, 100, 0.2);
+  border-radius: 8px;
+  padding: 8px;
+}
+
 /* links inferiores */
 .footerLinks {
   margin-top: 28px;

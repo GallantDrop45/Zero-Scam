@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Header from '../components/Header/Header';
 import styles from './VerificarLink.module.css';
+import RelatorioLink from "../components/RelatorioLink";
+
 import { FaCheckCircle, FaExclamationTriangle, FaSpinner } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
@@ -105,33 +107,12 @@ export default function VerificarLink() {
               <p>{resultado.mensagem}</p>
             </div>
 
-            {/* Renderiza o divisor e o bloco abaixo SOMENTE se o link for válido */}
             {!carregando && resultado.status !== 'erro' && (
               <>
                 <hr className={styles.divisor} />
 
                 {isLoggedIn ? (
-                  <div className={styles.relatorioBox}>
-                    <h3>Relatório completo</h3>
-                    <ul>
-                      <li>
-                        <strong>Domínio:</strong>{' '}
-                        {resultado.detalhes.dominioRegistrado ? 'Registrado' : 'Não registrado'}
-                      </li>
-                      <li>
-                        <strong>Score de segurança:</strong> {resultado.detalhes.score}%
-                      </li>
-                      <li>
-                        <strong>Total de denúncias:</strong> {resultado.detalhes.totalDenuncias}
-                      </li>
-                      <li>
-                        <strong>Valor total coletado pelo golpe:</strong>{' '}
-                        {resultado.detalhes.valorColetado > 0
-                          ? `R$ ${resultado.detalhes.valorColetado.toLocaleString('pt-BR')}`
-                          : 'Nenhum valor coletado'}
-                      </li>
-                    </ul>
-                  </div>
+                  <RelatorioLink detalhes={resultado.detalhes} />
                 ) : (
                   <div className={styles.ctaBox}>
                     <h3>Relatório detalhado disponível</h3>

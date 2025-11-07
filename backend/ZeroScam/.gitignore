@@ -33,3 +33,23 @@ build/
 ### VS Code ###
 .vscode/
 .env
+
+# Secrets
+application-secrets.properties
+*-secrets.properties
+
+# IDEs
+.vscode/
+.idea/
+*.iml
+
+# Maven
+target/
+*.class
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

@@ -17,7 +17,7 @@ export default function Login() {
     let valid = true;
     let newErrors = { email: "", senha: "", login: "" };
 
-    // Validação do email
+    
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       newErrors.email = "Digite um email válido.";
@@ -34,25 +34,55 @@ export default function Login() {
     return valid;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const isValid = validateFields();
+  const isValid = validateFields();
+  if (!isValid) return;
 
-    if (!isValid) return;
+  try {
+    const response = await fetch("http://localhost:8080/api/usuarios/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        senha: senha,
+      }),
+    });
 
-    // Integrar com o backend futuramente
-    if (email === "teste@exemplo.com" && senha === "Senha123!") {
-      console.log("Login bem-sucedido!");
-      setErrors({ email: "", senha: "", login: "" });
-    } else {
+    if (response.ok) {
+      const usuario = await response.json();
+      console.log("Login bem-sucedido!", usuario);
+
+      // salva o usuário no localStorage ou contexto para manter a sessão
+      localStorage.setItem("usuario", JSON.stringify(usuario));
+
+      // Redirecionar o usuário para a página principal
+      window.location.href = "/dashboard";
+    } else if (response.status === 401) {
       setErrors({
         email: "",
         senha: "",
         login: "Email ou senha incorretos.",
       });
+    } else {
+      setErrors({
+        email: "",
+        senha: "",
+        login: "Erro inesperado ao tentar fazer login",
+      });
     }
-  };
+  } catch (error) {
+    console.error("Erro no login:", error);
+    setErrors({
+      email: "",
+      senha: "",
+      login: "Erro ao conectar ao servidor.",
+    });
+  }
+};
 
   return (
     <>

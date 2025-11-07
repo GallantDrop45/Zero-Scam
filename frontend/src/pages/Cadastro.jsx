@@ -76,26 +76,47 @@ export default function Cadastro() {
   };
 
   // Envio do formulário
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    // valida todos antes de enviar
-    validateField("nome", formData.nome);
-    validateField("sobrenome", formData.sobrenome);
-    validateField("email", formData.email);
+  validateField("nome", formData.nome);
+  validateField("sobrenome", formData.sobrenome);
+  validateField("email", formData.email);
 
-    if (
-      errors.nome ||
-      errors.sobrenome ||
-      errors.email ||
-      !validations.match
-    ) {
-      console.log("Formulário inválido");
+  if (errors.nome || errors.sobrenome || errors.email || !validations.match) {
+    console.log("Formulário inválido");
+    return;
+  }
+
+  const dadosCadastro = {
+    nome: formData.nome,
+    sobrenome: formData.sobrenome,
+    email: formData.email,
+    senha: formData.senha
+  };
+
+  try {
+    const response = await fetch("http://localhost:8080/api/usuarios/registrar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dadosCadastro),
+    });
+
+    if (!response.ok) {
+      const err = await response.json();
+      alert("Erro ao cadastrar: " + (err.erro || "Tente novamente"));
       return;
     }
 
-    console.log("Formulário enviado:", formData);
-  };
+    alert("Cadastro realizado com sucesso!");
+    setFormData({ nome: "", sobrenome: "", email: "", senha: "", confirmarSenha: "" });
+
+  } catch (error) {
+    console.error("Erro:", error);
+    alert("Erro ao conectar ao servidor.");
+  }
+};
+
 
   return (
     <>

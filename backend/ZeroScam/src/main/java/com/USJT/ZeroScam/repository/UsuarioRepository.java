@@ -3,9 +3,12 @@ package com.USJT.ZeroScam.repository;
 import com.USJT.ZeroScam.model.Usuario;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
+import java.util.Optional;
 
 @Repository
 public interface UsuarioRepository extends MongoRepository<Usuario, String> {
-    // Métodos personalizados 
-    Usuario findByEmail(String email);
+   
+   Optional<Usuario> findByEmail(String email);
+
+   boolean existsByEmail(String email);
 }

@@ -23,25 +23,25 @@ public class MyController {
         return "Hello from the Backend!";
     }
 
-    // Listar todos os usuários
+   
     @GetMapping("/usuarios")
     public List<Usuario> getUsuarios() {
         return usuarioRepository.findAll();
     }
 
-    // Criar novo usuário
+    
     @PostMapping("/usuarios")
     public Usuario criarUsuario(@RequestBody Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
 
-    // Buscar usuário por ID
+   
     @GetMapping("/usuarios/{id}")
     public Usuario getUsuarioById(@PathVariable String id) {
         return usuarioRepository.findById(id).orElse(null);
     }
 
-    // Deletar usuário
+    
     @DeleteMapping("/usuarios/{id}")
     public String deletarUsuario(@PathVariable String id) {
         usuarioRepository.deleteById(id);

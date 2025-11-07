@@ -1,6 +1,7 @@
 package com.USJT.ZeroScam.service;
 
 import com.USJT.ZeroScam.model.WhoisData;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import java.time.LocalDate;
@@ -10,16 +11,15 @@ import java.time.temporal.ChronoUnit;
 @Service
 public class WhoisService {
     
-   
-    private final String API_KEY = ""; 
+   @Value("${WhoisAPIKey}")
+    private String API_KEY;
     private final String API_URL = "https://whois-history.whoisxmlapi.com/api/v1";
-    
-    /**
-     * Consulta informações WHOIS de um domínio
-     */
+
+
+    //Consulta informações WHOIS de um domínio
     public WhoisData consultarDominio(String domain) {
         if (API_KEY == null || API_KEY.isEmpty()) {
-            System.out.println("⚠️ API KEY não configurada. Pulando consulta WHOIS.");
+            System.out.println("API KEY não configurada. Pulando consulta WHOIS.");
             return null;
         }
         
@@ -28,17 +28,17 @@ public class WhoisService {
         
         try {
             WhoisData data = restTemplate.getForObject(url, WhoisData.class);
-            System.out.println("✅ WHOIS consultado com sucesso: " + domain);
+            System.out.println("WHOIS consultado com sucesso: " + domain);
             return data;
         } catch (Exception e) {
-            System.err.println("❌ Erro ao consultar WHOIS: " + e.getMessage());
+            System.err.println("Erro ao consultar WHOIS: " + e.getMessage());
             return null;
         }
     }
     
-    /*
-     * Calcula score de risco baseado nos dados WHOIS (0-100)
-     */
+    
+     //Calcula score de risco baseado nos dados WHOIS (0-100)
+     
     public int calcularScoreRisco(WhoisData data) {
         if (data == null) {
             return 50; // Score médio se não conseguir consultar
@@ -88,9 +88,9 @@ public class WhoisService {
         return Math.min(score, 100); // Máximo 100
     }
     
-    /**
-     * Calcula quantos dias se passaram desde o registro do domínio
-     */
+    
+     // Calcula quantos dias se passaram desde o registro do domínio
+     
     private long calcularDiasDesdeRegistro(String dataRegistro) {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -101,11 +101,11 @@ public class WhoisService {
             return 365; // Se der erro, assume que tem 1 ano
         }
     }
-    
-    /**
-     * Extrai apenas o domínio de uma URL completa
-     * Exemplo: https://www.google.com/search
-     */
+
+
+      // Extrai apenas o domínio de uma URL completa
+     // Exemplo: https://www.google.com/search
+     
     public String extrairDominio(String url) {
         try {
             // Remove protocolo (http://, https://)

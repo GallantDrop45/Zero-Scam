@@ -4,9 +4,11 @@ import Header from "../components/Header/Header";
 import styles from "./Login.module.css";
 
 export default function Login() {
+
+ 
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [errors, setErrors] = useState({
     email: "",
     senha: "",
@@ -22,9 +24,11 @@ export default function Login() {
     if (!emailRegex.test(email)) {
       newErrors.email = "Digite um email válido.";
       valid = false;
+
+      
     }
 
-    // Validação da senha
+ 
     if (senha.length < 8) {
       newErrors.senha = "A senha deve ter pelo menos 8 caracteres.";
       valid = false;
@@ -55,12 +59,16 @@ export default function Login() {
     if (response.ok) {
       const usuario = await response.json();
       console.log("Login bem-sucedido!", usuario);
-
-      // salva o usuário no localStorage ou contexto para manter a sessão
+      
+      
       localStorage.setItem("usuario", JSON.stringify(usuario));
+      setIsLoggedIn(true);
 
-      // Redirecionar o usuário para a página principal
-      window.location.href = "/dashboard";
+      window.dispatchEvent(new Event("storage"));
+
+      
+        window.location.href = "/";
+      
     } else if (response.status === 401) {
       setErrors({
         email: "",
@@ -123,11 +131,15 @@ export default function Login() {
               </span>
             )}
 
-            <button type="submit" className={styles.btn}>
-              ENTRAR
-            </button>
+              {!isLoggedIn && ( // Renderização condicional do botão
+              <button type="submit" className={styles.btn}>
+                ENTRAR
+              </button>
+            )}
           </form>
+          
 
+          {!isLoggedIn && (
           <div className={styles.footerLinks}>
             <a href="/recuperar-senha" className={styles.forgotPassword}>
               Esqueceu a senha?
@@ -139,6 +151,7 @@ export default function Login() {
               </a>
             </p>
           </div>
+            )}
         </div>
       </section>
     </>

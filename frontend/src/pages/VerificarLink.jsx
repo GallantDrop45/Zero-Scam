@@ -11,8 +11,7 @@ export default function VerificarLink() {
   const [resultado, setResultado] = useState(null);
   const [carregando, setCarregando] = useState(false);
 
-  // Simula usuário logado (futuramente virá do backend)
-  const isLoggedIn = true;
+  const isLoggedIn = Boolean(localStorage.getItem("usuario"));
 
   const handleVerificar = async () => {
     const urlRegex = /^(https?:\/\/)([a-z0-9-]+\.)+[a-z]{2,}(\/.*)?$/i;

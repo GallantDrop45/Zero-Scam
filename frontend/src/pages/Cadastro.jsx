@@ -10,6 +10,7 @@ export default function Cadastro() {
     sobrenome: "",
     email: "",
     senha: "",
+    cidade: "",
     confirmarSenha: "",
   });
 
@@ -110,6 +111,7 @@ export default function Cadastro() {
 
     alert("Cadastro realizado com sucesso!");
     setFormData({ nome: "", sobrenome: "", email: "", senha: "", confirmarSenha: "" });
+    window.location.href = "/";
 
   } catch (error) {
     console.error("Erro:", error);

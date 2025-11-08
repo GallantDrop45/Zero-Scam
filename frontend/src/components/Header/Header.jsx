@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { SiHiveBlockchain } from 'react-icons/si';
@@ -6,10 +6,30 @@ import styles from './Header.module.css';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation();
 
-  // futuramente essa info virá do backend
-  const isLoggedIn = false;
+  
+  useEffect(() => {
+    const checkLogin = () => {
+      const usuario = localStorage.getItem("usuario");
+      setIsLoggedIn(!!usuario);
+    };
+
+    checkLogin(); 
+
+    
+    window.addEventListener("storage", checkLogin);
+    return () => window.removeEventListener("storage", checkLogin);
+  }, []);
+
+  
+  const handleLogout = () => {
+    localStorage.removeItem("usuario");
+    setIsLoggedIn(false);
+    window.dispatchEvent(new Event("storage")); // atualiza o Header
+    setMenuOpen(false);
+  };
 
   return (
     <header className={styles.header}>
@@ -19,7 +39,7 @@ export default function Header() {
         &lt; zeroScam &gt;
       </Link>
 
-      {/* Botão hamburguer */}
+     
       <button
         className={styles.hamburger}
         onClick={() => setMenuOpen(!menuOpen)}
@@ -28,7 +48,7 @@ export default function Header() {
         {menuOpen ? <FaTimes /> : <FaBars />}
       </button>
 
-      {/* Navegação */}
+     
       <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`}>
         <Link 
           to="/verificar" 
@@ -46,24 +66,23 @@ export default function Header() {
           DENUNCIAR GOLPE
         </Link>
 
-        {/* Botão de Login ou Conta */}
-          {isLoggedIn ? (
-            <Link 
-              to="/conta"
-              className={`${styles.entrarBtn} ${location.pathname === '/conta' ? styles.activeBtn : ''}`}
-              onClick={() => setMenuOpen(false)}
-            >
-              MINHA CONTA
-            </Link>
-          ) : (
-            <Link 
-              to="/login"
-              className={`${styles.entrarBtn} ${location.pathname === '/login' ? styles.activeBtn : ''}`}
-              onClick={() => setMenuOpen(false)}
-            >
-              ENTRAR
-            </Link>
-          )}
+        
+        {isLoggedIn ? (
+          <button 
+            onClick={handleLogout}
+            className={`${styles.sairBtn} ${styles.logoutBtn}`}
+          >
+            SAIR
+          </button>
+        ) : (
+          <Link 
+            to="/login"
+            className={`${styles.entrarBtn} ${location.pathname === '/login' ? styles.activeBtn : ''}`}
+            onClick={() => setMenuOpen(false)}
+          >
+            ENTRAR
+          </Link>
+        )}
       </nav>
     </header>
   );

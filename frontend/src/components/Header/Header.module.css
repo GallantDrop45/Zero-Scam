@@ -110,6 +110,22 @@
   color: #120c12;
 }
 
+.logoutBtn {
+   margin-left: 30px;
+  border: 1px solid #f4f4f4;
+  padding: 12px 20px;
+  border-radius: 8px;
+  background: transparent;
+  color: #f4f4f4;
+  transition: all 0.3s;
+  line-height: 1;
+}
+
+.logoutBtn:hover {
+  background-color: #f4f4f4;
+  color: #120c12;
+}
+
 /* ----------- HAMBURGUER ----------- */
 .hamburger {
   display: none;

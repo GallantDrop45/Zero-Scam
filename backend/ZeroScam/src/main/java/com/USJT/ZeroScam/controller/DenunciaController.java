@@ -35,37 +35,37 @@ public class DenunciaController {
         try {
             System.out.println("📥 Recebendo denúncia: " + denuncia.getLink());
             
-            // Extrair domínio do link
+            
             String dominio = whoisService.extrairDominio(denuncia.getLink());
             denuncia.setDominio(dominio);
             System.out.println("Domínio extraído: " + dominio);
-            
-            // Consultar WHOIS (só se tiver API KEY configurada)
-            WhoisData whoisData = whoisService.consultarDominio(dominio);
-            
-            if (whoisData != null) {
-                
-                int scoreRisco = whoisService.calcularScoreRisco(whoisData);
-                denuncia.setScoreRisco(scoreRisco);
-                
-                // Adicionar dados do WHOIS
-                denuncia.setPaisRegistro(whoisData.getRegistrantCountry());
-                denuncia.setDataRegistroDominio(whoisData.getCreatedDate());
-                
-                //  Marcar como suspeito se score >= 60
-                denuncia.setDominioSuspeito(scoreRisco >= 60);
-                
-                System.out.println("Domínio verificado! Score: " + scoreRisco);
-            } else {
-                System.out.println("WHOIS não consultado (API KEY não configurada ou erro)");
+
+            if (whoisService.consultarDominio(dominio) != null) {
+                WhoisData whoisData = whoisService.consultarDominio(dominio);
+
+                if (whoisData != null) {
+
+                    int scoreRisco = whoisService.calcularScoreRisco(whoisData);
+                    denuncia.setScoreRisco(scoreRisco);
+                    
+                    
+                    denuncia.setPaisRegistro(whoisData.getRegistrantCountry());
+                    denuncia.setDataRegistroDominio(whoisData.getCreatedDate());
+                    
+                    //  Marcar como suspeito se score >= 60
+                    denuncia.setDominioSuspeito(scoreRisco >= 60);
+                    
+                    System.out.println("Domínio verificado! Score: " + scoreRisco);
+                } else {
+                    System.out.println("WHOIS não consultado (API KEY não configurada ou erro)");
+                }
             }
-            
-            
+
             Denuncia novaDenuncia = denunciaRepository.save(denuncia);
             System.out.println("Denúncia salva com ID: " + novaDenuncia.getId());
             
             return new ResponseEntity<>(novaDenuncia, HttpStatus.CREATED);
-            
+
         } catch (Exception e) {
             System.err.println("Erro ao criar denúncia: " + e.getMessage());
             e.printStackTrace();
@@ -73,8 +73,6 @@ public class DenunciaController {
         }
     }
 
-
-    
     @GetMapping("/{id}")
     public ResponseEntity<Denuncia> buscarPorId(@PathVariable String id) {
         return denunciaRepository.findById(id)
@@ -97,4 +95,4 @@ public class DenunciaController {
             return new ResponseEntity<>("Erro ao deletar denúncia", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-}
+}   

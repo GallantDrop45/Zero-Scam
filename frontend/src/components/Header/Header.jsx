@@ -7,14 +7,23 @@ import styles from './Header.module.css';
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [usuario, setUsuario] = useState(null);
   const location = useLocation();
 
   
   useEffect(() => {
-    const checkLogin = () => {
-      const usuario = localStorage.getItem("usuario");
-      setIsLoggedIn(!!usuario);
-    };
+  const checkLogin = () => {
+    const usuarioSalvo = localStorage.getItem("usuario");
+    if (usuarioSalvo) {
+      const parsedUser = JSON.parse(usuarioSalvo);
+      setUsuario(parsedUser);
+      setIsLoggedIn(true);
+    } else {
+      setUsuario(null);
+      setIsLoggedIn(false);
+    }
+  };
 
     checkLogin(); 
 
@@ -67,13 +76,23 @@ export default function Header() {
         </Link>
 
         
-        {isLoggedIn ? (
-          <button 
-            onClick={handleLogout}
-            className={`${styles.sairBtn} ${styles.logoutBtn}`}
-          >
-            SAIR
-          </button>
+         {usuario ? (
+          <div className={styles.userMenuContainer}>
+            <button 
+              className={styles.userButton} 
+              onClick={() => setUserMenuOpen(!userMenuOpen)}
+            >
+             <p className={styles.userName}>{usuario.nome || "Olá 'Usuário'"}</p>
+            </button>
+
+            {userMenuOpen && (
+              <div className={styles.dropdown}>
+                <button className={styles.userButton} onClick={handleLogout}>
+                  Sair
+                </button>
+              </div>
+            )}
+          </div>
         ) : (
           <Link 
             to="/login"

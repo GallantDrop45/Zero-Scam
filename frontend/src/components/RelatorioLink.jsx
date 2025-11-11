@@ -7,14 +7,14 @@ export default function RelatorioLink({ detalhes }) {
   const { dominioRegistrado, score = 0, totalDenuncias = 0, valorColetado = 0 } =
     detalhes;
 
-  // Formata o valor em real
+  
   const valorFormatado = valorColetado.toLocaleString("pt-BR", {
     style: "currency",
     currency: "BRL",
     minimumFractionDigits: 2,
   });
 
-  // Dicas por faixa de score
+  
   const dica =
     score >= 90
       ? "Excelente! O link parece extremamente confiável. Mesmo assim, mantenha cuidado ao inserir informações pessoais."
@@ -26,7 +26,7 @@ export default function RelatorioLink({ detalhes }) {
       ? "Risco moderado. Foram detectadas indícios de atividade fraudulenta. Recomendamos não prosseguir com o link."
       : "Alerta vermelho! Este link apresenta alto risco de golpe. Evite acessá-lo e, se possível, denuncie.";
 
-  // Cálculo do arco SVG (semi-círculo)
+  
     const radius = 40; 
     const circumference = Math.PI * radius;
     const progress = Math.min(100, Math.max(0, score));

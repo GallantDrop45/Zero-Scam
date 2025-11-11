@@ -181,4 +181,53 @@
     margin: 0;
   }
 
+.userMenuContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.userButton {
+  border: 1px solid #f4f4f4;
+  padding: 12px 20px;
+  border-radius: 8px;
+  background: transparent;
+  color: #f4f4f4;
+  transition: all 0.3s;
+  line-height: 1;
+}
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: 120%;
+  background-color: #222;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  display: flex;
+  flex-direction: column;
+  min-width: 150px;
+  z-index: 100;
+}
+
+.userName {
+  color: #fff;
+  margin: 0 0 8px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.userButton {
+  border: 1px solid #f4f4f4;
+  padding: 12px 20px;
+  border-radius: 8px;
+  background: transparent;
+  color: #f4f4f4;
+  transition: all 0.3s;
+  line-height: 1;
+}
+
+.userButton:hover {
+  background-color: #ff3333;
+}
 }

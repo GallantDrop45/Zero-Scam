@@ -35,35 +35,59 @@ export default function VerificarLink() {
     setCarregando(true);
     setResultado(null);
 
-    // Simula resposta da API
-    setTimeout(() => {
-      setCarregando(false);
-      const seguro = Math.random() > 0.4;
+    try {
+      console.log('🔍 Verificando link:', link);
 
-      if (seguro) {
+      
+      const response = await fetch('http://localhost:8080/api/verificar-link', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ link: link.trim() })
+      });
+
+      const data = await response.json();
+      console.log('Resposta da API:', data);
+
+      if (data.sucesso) {
+        const analise = data.dados;
+
+        
+        const ehPerigoso = analise.suspeito || analise.scoreRisco >= 60 || analise.totalDenuncias >= 5;
+
         setResultado({
-          status: 'seguro',
-          mensagem: 'Este link parece confiável e não foi reportado em nossa base de dados.',
+          status: ehPerigoso ? 'perigoso' : 'seguro',
+          mensagem: ehPerigoso 
+            ? 'Detectamos atividades suspeitas associadas a este link.'
+            : 'Este link parece confiável e não foi reportado em nossa base de dados.',
           detalhes: {
-            dominioRegistrado: true,
-            score: 95,
-            totalDenuncias: 0,
-            valorColetado: 0,
+            dominioRegistrado: analise.dominioRegistrado,
+            score: analise.scoreRisco,
+            totalDenuncias: analise.totalDenuncias,
+            valorColetado: analise.valorTotalPerdido,
+            dicaSeguranca: analise.dicaSeguranca,
+            paisRegistro: analise.paisRegistro,
+            dataRegistro: analise.dataRegistro,
+            dominio: analise.dominio
           },
         });
       } else {
         setResultado({
-          status: 'perigoso',
-          mensagem: 'Detectamos atividades suspeitas associadas a este link.',
-          detalhes: {
-            dominioRegistrado: false,
-            score: 23,
-            totalDenuncias: 18,
-            valorColetado: 13500,
-          },
+          status: 'erro',
+          mensagem: data.mensagem || 'Erro ao analisar o link. Tente novamente.',
         });
       }
-    }, 1600);
+
+    } catch (error) {
+      console.error('Erro ao verificar link:', error);
+      setResultado({
+        status: 'erro',
+        mensagem: 'Erro ao conectar com o servidor. Verifique se o backend está rodando.',
+      });
+    } finally {
+      setCarregando(false);
+    }
   };
 
   return (
@@ -83,6 +107,11 @@ export default function VerificarLink() {
             placeholder="Ex: https://www.exemplo.com"
             value={link}
             onChange={(e) => setLink(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleVerificar();
+              }
+            }}
           />
           <button onClick={handleVerificar} disabled={carregando}>
             {carregando ? <FaSpinner className={styles.spin} /> : 'ANALISAR'}

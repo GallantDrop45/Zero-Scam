@@ -1,0 +1,65 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: usuario-service
+          uri: lb://usuario-service
+          predicates:
+            - Path=/api/usuarios/**
+          filters:
+            - RewritePath=/api/usuarios/(?<segment>.*), /api/usuarios/${segment}
+
+        - id: denuncia-service
+          uri: lb://denuncia-service
+          predicates:
+            - Path=/api/denuncias/**
+          filters:
+            - RewritePath=/api/denuncias/(?<segment>.*), /api/denuncias/${segment}
+
+        - id: verificacao-service
+          uri: lb://verificacao-service
+          predicates:
+            - Path=/api/verificacoes/**
+          filters:
+            - RewritePath=/api/verificacoes/(?<segment>.*), /api/verificacoes/${segment}
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:3000"
+              - "http://localhost:5173"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
+              - OPTIONS
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
